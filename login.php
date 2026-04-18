@@ -131,7 +131,10 @@
 
         <!-- Error Message -->
         <?php if (isset($_GET['error'])): ?>
-        <p style="color:red; text-align:center;">Email atau password salah</p>
+        <div
+            class="mb-4 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-600">
+            Email atau password salah
+        </div>
         <?php endif; ?>
 
 
@@ -140,7 +143,7 @@
         <form action="process/login_process.php" method="POST">
 
             <!-- EMAIL -->
-            <div>
+            <div class="mb-4">
                 <label class="block font-label text-label-sm font-semibold text-on-surface-variant mb-2">
                     EMAIL
                 </label>
@@ -152,13 +155,13 @@
 
                     <!-- INPUT EMAIL -->
                     <input
-                        class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg"
-                        name="email" type="email" placeholder="Enter your email" required />
+                        class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                        name="email" type="email" placeholder="Masukan E-mail" required />
                 </div>
             </div>
 
             <!-- PASSWORD -->
-            <div>
+            <div class="mb-4">
                 <label class="block font-label text-label-sm font-semibold text-on-surface-variant">
                     PASSWORD
                 </label>
@@ -170,14 +173,14 @@
 
                     <!-- INPUT PASSWORD -->
                     <input
-                        class="w-full pl-10 pr-12 py-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg"
-                        name="password" type="password" placeholder="Enter your password" required />
+                        class="w-full pl-10 pr-12 py-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary"
+                        name="password" type="password" placeholder="Masukan Password" required />
                 </div>
             </div>
 
             <!-- BUTTON -->
             <button
-                class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-headline font-semibold rounded-lg"
+                class="w-full mt-5 py-4 bg-gradient-to-br from-primary to-primary-container text-white font-headline font-semibold rounded-lg hover:shadow-lg hover:brightness-110 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-4 focus:ring-primary/20"
                 type="submit">
                 Login
             </button>
@@ -192,12 +195,12 @@
         </div>
         <div class="mt-6 flex gap-4">
             <button
-                class="flex-1 py-2.5 flex items-center justify-center gap-2 bg-surface-container-high rounded-lg hover:bg-surface-dim transition-colors">
+                class="flex-1 py-2.5 flex items-center justify-center gap-2 bg-surface-container-high rounded-lg hover:bg-surface-dim hover:shadow-md transition-all duration-200 active:scale-[0.98]">
                 <span class="material-symbols-outlined text-lg" data-icon="key">key</span>
                 <span class="text-sm font-medium">SSO</span>
             </button>
             <button
-                class="flex-1 py-2.5 flex items-center justify-center gap-2 bg-surface-container-high rounded-lg hover:bg-surface-dim transition-colors">
+                class="flex-1 py-2.5 flex items-center justify-center gap-2 bg-surface-container-high rounded-lg hover:bg-surface-dim hover:shadow-md transition-all duration-200 active:scale-[0.98]">
                 <span class="material-symbols-outlined text-lg" data-icon="fingerprint">fingerprint</span>
                 <span class="text-sm font-medium">Biometric</span>
             </button>
