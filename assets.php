@@ -21,9 +21,8 @@ $data_total = mysqli_fetch_assoc($query_total);
 $total_asset = $data_total['total_asset'] ?? 0;
 $total_item = $data_total['total_item'] ?? 0;
 
-$pageTitle = 'Assets | The Sovereign Ledger';
 $activePage = 'assets';
-$searchPlaceholder = 'Search assets...';
+$searchPlaceholder = 'Cari Assets...';
 $topbarTitle = 'Assets';
 ?>
 <!DOCTYPE html>
@@ -34,23 +33,24 @@ $topbarTitle = 'Assets';
     <?php include 'includes/sidebar.php'; ?>
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="space-y-8 px-4 py-6 sm:px-6 lg:ml-72 lg:px-8">
+    <main class="ml-64 space-y-8 px-4 py-6 sm:px-6 lg:px-8">
         <section class="grid grid-cols-1 gap-8 xl:grid-cols-3">
             <div
                 class="xl:col-span-2 relative overflow-hidden rounded-xl bg-gradient-to-br from-primary to-primary-container p-8 text-white shadow-lg">
                 <div class="relative z-10 flex h-full flex-col justify-between">
                     <div>
                         <span class="text-primary-fixed text-xs font-bold uppercase tracking-widest opacity-80">
-                            Portfolio Summary
+                            Ringkasan Portofolio
                         </span>
                         <h1 class="mt-1 font-['Manrope'] text-[2.75rem] font-bold leading-tight">
-                            Rp<?php echo number_format($total_asset, 0, ',', '.'); ?>
+                            Rp
+                            <?php echo number_format($total_asset, 0, ',', '.'); ?>
                         </h1>
                     </div>
 
                     <div class="mt-8 flex items-center gap-6">
                         <div class="flex flex-col">
-                            <span class="text-xs opacity-70">24h Change</span>
+                            <span class="text-xs opacity-70">Perubahan 24j</span>
                             <span class="flex items-center gap-1 text-lg font-bold">
                                 <span class="material-symbols-outlined text-sm">trending_up</span>
                                 +2.45%
@@ -60,8 +60,10 @@ $topbarTitle = 'Assets';
                         <div class="h-8 w-px bg-white/20"></div>
 
                         <div class="flex flex-col">
-                            <span class="text-xs opacity-70">Active Positions</span>
-                            <span class="text-lg font-bold"><?php echo $total_item; ?> Aset</span>
+                            <span class="text-xs opacity-70">Aset Aktif</span>
+                            <span class="text-lg font-bold">
+                                <?php echo $total_item; ?> Aset
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -74,7 +76,7 @@ $topbarTitle = 'Assets';
 
             <div class="rounded-xl bg-surface-container-low p-6 flex flex-col justify-center">
                 <h3 class="mb-4 text-sm font-semibold uppercase tracking-tighter text-on-surface-variant">
-                    Quick Actions
+                    Aksi Cepat
                 </h3>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -83,7 +85,7 @@ $topbarTitle = 'Assets';
                         <span class="material-symbols-outlined text-primary transition-transform group-hover:scale-110">
                             add_card
                         </span>
-                        <span class="text-xs font-medium">Add Asset</span>
+                        <span class="text-xs font-medium">Tambah Aset</span>
                     </a>
 
                     <button type="button"
@@ -91,7 +93,7 @@ $topbarTitle = 'Assets';
                         <span class="material-symbols-outlined text-primary transition-transform group-hover:scale-110">
                             ios_share
                         </span>
-                        <span class="text-xs font-medium">Export Data</span>
+                        <span class="text-xs font-medium">Eksport Data</span>
                     </button>
                 </div>
             </div>
@@ -99,13 +101,13 @@ $topbarTitle = 'Assets';
 
         <section class="space-y-6">
             <div class="flex items-center justify-between">
-                <h2 class="font-['Manrope'] text-2xl font-bold text-on-surface">Asset Holdings</h2>
+                <h2 class="font-['Manrope'] text-2xl font-bold text-on-surface">Kepemilikan Aset</h2>
 
                 <div class="flex items-center gap-2">
-                    <span class="text-xs font-medium text-slate-400">Sort by:</span>
+                    <span class="text-xs font-medium text-slate-400">Urutkan:</span>
                     <select
                         class="cursor-pointer border-none bg-transparent text-xs font-bold text-primary focus:ring-0">
-                        <option>Value (High-Low)</option>
+                        <option>Nilai (Tinggi-Rendah)</option>
                         <option>Category</option>
                         <option>Alphabetical</option>
                     </select>
@@ -128,7 +130,8 @@ $topbarTitle = 'Assets';
                             </div>
 
                             <p class="mt-4 text-2xl font-bold text-primary">
-                                Rp<?php echo number_format($row['nilai'], 0, ',', '.'); ?>
+                                Rp
+                                <?php echo number_format($row['nilai'], 0, ',', '.'); ?>
                             </p>
 
                             <p class="mt-2 text-sm text-slate-400">
@@ -144,7 +147,8 @@ $topbarTitle = 'Assets';
 
                 <div class="flex justify-center border-t border-outline-variant/10 bg-slate-50 px-6 py-4">
                     <button type="button" class="text-xs font-bold text-primary hover:underline">
-                        View All Assets (<?php echo $total_item; ?>)
+                        View All Assets (
+                        <?php echo $total_item; ?>)
                     </button>
                 </div>
             <?php else: ?>
@@ -156,7 +160,7 @@ $topbarTitle = 'Assets';
 
         <section class="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
-                <h3 class="mb-6 font-['Manrope'] text-lg font-bold">Asset Allocation</h3>
+                <h3 class="mb-6 font-['Manrope'] text-lg font-bold">Alokasi Aset</h3>
 
                 <div class="flex items-center gap-8">
                     <div
@@ -164,14 +168,14 @@ $topbarTitle = 'Assets';
                         <div
                             class="absolute inset-0 -rotate-45 rounded-full border-[12px] border-emerald-100 border-r-transparent border-t-transparent">
                         </div>
-                        <span class="text-xs font-bold text-primary">Balanced</span>
+                        <span class="text-xs font-bold text-primary">Seimbang</span>
                     </div>
 
                     <div class="flex-1 space-y-3">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <div class="h-2 w-2 rounded-full bg-primary"></div>
-                                <span class="text-xs text-slate-500">Real Estate</span>
+                                <span class="text-xs text-slate-500">Properti</span>
                             </div>
                             <span class="text-xs font-bold">45%</span>
                         </div>
@@ -179,7 +183,7 @@ $topbarTitle = 'Assets';
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <div class="h-2 w-2 rounded-full bg-secondary"></div>
-                                <span class="text-xs text-slate-500">Equities</span>
+                                <span class="text-xs text-slate-500">Saham</span>
                             </div>
                             <span class="text-xs font-bold">30%</span>
                         </div>
@@ -187,7 +191,7 @@ $topbarTitle = 'Assets';
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <div class="h-2 w-2 rounded-full bg-emerald-200"></div>
-                                <span class="text-xs text-slate-500">Other</span>
+                                <span class="text-xs text-slate-500">Lainnya</span>
                             </div>
                             <span class="text-xs font-bold">25%</span>
                         </div>
@@ -199,13 +203,13 @@ $topbarTitle = 'Assets';
                 <div class="relative z-10">
                     <h3 class="mb-2 font-['Manrope'] text-lg font-bold">Portfolio Insights</h3>
                     <p class="mb-6 text-sm leading-relaxed text-slate-500">
-                        Your real estate holdings are performing 12% above benchmark this quarter.
-                        Consider rebalancing equity positions.
+                        Aset properti anda berkinerja 12% di atas tolak ukur pada kuartal ini. Pertimbangkan untuk
+                        menyeimbangkan kembali alokasi saham.
                     </p>
 
                     <button type="button"
                         class="flex items-center gap-2 rounded-md bg-primary px-5 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90">
-                        View Full Report
+                        Lihat Laporan Lengkap
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </button>
                 </div>
@@ -217,10 +221,10 @@ $topbarTitle = 'Assets';
         </section>
     </main>
 
-    <footer class="border-t border-slate-100 bg-slate-50 p-6 lg:ml-72 dark:border-slate-800 dark:bg-slate-900">
+    <footer class="ml-64 border-t border-slate-100 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900">
         <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <p class="font-['Inter'] text-xs text-slate-400">
-                © 2024 The Sovereign Ledger. All rights reserved.
+                © 2024 The CashTrack. All rights reserved.
             </p>
 
             <div class="flex gap-4">

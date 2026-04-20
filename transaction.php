@@ -12,9 +12,8 @@ $query = mysqli_query($conn, "
 ?>
 
 <?php
-$pageTitle = 'Transactions | The Sovereign Ledger';
 $activePage = 'transaction';
-$searchPlaceholder = 'Search transactions...';
+$searchPlaceholder = 'Cari Transaksi...';
 
 ?>
 <!DOCTYPE html>
@@ -35,7 +34,7 @@ $searchPlaceholder = 'Search transactions...';
                     <span class="text-primary">Transaction History</span>
                 </nav>
                 <h2 class="text-[2.75rem] font-bold text-on-surface font-['Manrope'] leading-tight tracking-tight">
-                    Transaction History</h2>
+                    Histori Transaksi</h2>
             </div>
             <div class="flex items-center gap-3">
                 <div class="flex rounded-md overflow-hidden bg-surface-container-high p-1">
@@ -47,12 +46,12 @@ $searchPlaceholder = 'Search transactions...';
                 <button
                     class="flex items-center gap-2 bg-surface-container-high text-primary font-semibold py-2.5 px-5 rounded-lg hover:bg-surface-container-highest transition-all text-sm">
                     <span class="material-symbols-outlined text-lg">download</span>
-                    Download Financial Report
+                    Download Laporan Keuangan
                 </button>
                 <button
                     class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white font-semibold py-2.5 px-6 rounded-lg shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all text-sm">
                     <span class="material-symbols-outlined text-lg">add</span>
-                    <a href="add_transaction.php">Add Transaction</a>
+                    <a href="add_transaction.php">Tambah Transaksi</a>
                 </button>
             </div>
         </div>
@@ -61,37 +60,38 @@ $searchPlaceholder = 'Search transactions...';
             <div
                 class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-['Manrope'] font-semibold text-on-surface">Filter By Date Range</h3>
+                    <h3 class="font-['Manrope'] font-semibold text-on-surface">Filter Berdasarkan Tanggal</h3>
                     <div class="flex items-center gap-2 text-primary text-sm font-medium cursor-pointer">
                         <span class="material-symbols-outlined text-lg">calendar_today</span>
-                        Last 30 Days
+                        30 Hari Terakhir
                         <span class="material-symbols-outlined">expand_more</span>
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-[10px] font-bold text-outline uppercase mb-1 px-1">Start Date</label>
+                        <label class="block text-[10px] font-bold text-outline uppercase mb-1 px-1">Dari Tanggal</label>
                         <input
                             class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-emerald-500/20 transition-all"
                             type="date" value="2024-03-01" />
                     </div>
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-[10px] font-bold text-outline uppercase mb-1 px-1">End Date</label>
+                        <label class="block text-[10px] font-bold text-outline uppercase mb-1 px-1">Sampai
+                            Tanggal</label>
                         <input
                             class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-emerald-500/20 transition-all"
                             type="date" value="2024-03-31" />
                     </div>
                     <button
-                        class="mt-5 bg-secondary text-white py-3 px-8 rounded-lg font-semibold text-sm hover:opacity-90 transition-all self-end">Apply
+                        class="mt-5 bg-secondary text-white py-3 px-8 rounded-lg font-semibold text-sm hover:opacity-90 transition-all self-end">Terapkan
                         Filter</button>
                 </div>
             </div>
             <div
                 class="col-span-12 lg:col-span-4 bg-primary text-white rounded-xl p-6 shadow-xl relative overflow-hidden flex flex-col justify-between">
                 <div class="relative z-10">
-                    <p class="text-[10px] font-bold text-primary-fixed uppercase tracking-widest opacity-80 mb-1">Total
-                        Period Volume</p>
-                    <h4 class="text-3xl font-bold font-['Manrope'] tracking-tight">$482,901.20</h4>
+                    <p class="text-[10px] font-bold text-primary-fixed uppercase tracking-widest opacity-80 mb-1">total
+                        Volume Periode</p>
+                    <h4 class="text-3xl font-bold font-['Manrope'] tracking-tight">Rp282.901.120</h4>
                 </div>
                 <div class="flex items-end justify-between relative z-10">
                     <div
@@ -109,9 +109,9 @@ $searchPlaceholder = 'Search transactions...';
         <!-- Transactions Table Container -->
         <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden">
             <div class="p-6 flex items-center justify-between bg-surface-container-low/50">
-                <h3 class="font-['Manrope'] font-semibold text-on-surface">Recent Ledger Entries</h3>
+                <h3 class="font-['Manrope'] font-semibold text-on-surface">Catatan Transaksi Terbaru</h3>
                 <div class="flex items-center gap-4">
-                    <span class="text-xs text-outline font-medium">Displaying 1-10 of 2,451</span>
+                    <span class="text-xs text-outline font-medium">Menampilkan 1-10 dari 451</span>
                     <div class="flex gap-1">
                         <button class="p-1 rounded hover:bg-surface-container-high text-outline"><span
                                 class="material-symbols-outlined">chevron_left</span></button>
@@ -155,12 +155,12 @@ $searchPlaceholder = 'Search transactions...';
                                         <?php if ($row['jenis'] == 'income'): ?>
                                             <span
                                                 class="px-2 py-1 rounded bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase">
-                                                Inbound
+                                                Dana Masuk
                                             </span>
                                         <?php else: ?>
                                             <span
                                                 class="px-2 py-1 rounded bg-error-container text-on-error-container text-[10px] font-bold uppercase">
-                                                Outbound
+                                                Dana Keluar
                                             </span>
                                         <?php endif; ?>
                                     </td>
@@ -241,7 +241,7 @@ $searchPlaceholder = 'Search transactions...';
     <footer
         class="ml-64 p-6 flex justify-between items-center bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-6">
-            <span class="font-['Inter'] text-xs text-slate-400">© 2024 The Sovereign Ledger. All rights reserved.</span>
+            <span class="font-['Inter'] text-xs text-slate-400">© 2024 The CashTrack. All rights reserved.</span>
             <div class="flex items-center gap-4">
                 <a class="font-['Inter'] text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
                     href="#">Privacy Policy</a>

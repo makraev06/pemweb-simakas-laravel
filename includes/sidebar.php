@@ -3,13 +3,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$activePage = $activePage ?? '';
-$userName = $_SESSION['user_name'] ?? 'Alexander Sterling';
-$userRole = $userRole ?? ($_SESSION['user_role'] ?? (
-    $activePage === 'dashboard' ? 'Senior Comptroller' :
-    ($activePage === 'assets' ? 'Chief Asset Manager' : 'Treasury Officer')
-));
-
 function navClass($key, $activePage)
 {
     return $key === $activePage
@@ -25,10 +18,10 @@ function navClass($key, $activePage)
         </div>
         <div>
             <h1 class="text-xl font-bold text-emerald-800 dark:text-emerald-100 font-['Manrope'] tracking-tight">
-                Sovereign Ledger
+                CashTrack
             </h1>
             <p class="text-[10px] uppercase font-bold tracking-widest text-slate-400">
-                Institutional Grade
+                Pencatatan Keuangan
             </p>
         </div>
     </div>
