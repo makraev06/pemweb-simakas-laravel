@@ -142,8 +142,8 @@ $data_expense = [];
 
 while ($row = mysqli_fetch_assoc($query_chart)) {
     $labels[] = date('M', mktime(0, 0, 0, $row['bulan'], 1));
-    $data_income[] = (float)$row['total_income'];
-    $data_expense[] = (float)$row['total_expense'];
+    $data_income[] = (float) $row['total_income'];
+    $data_expense[] = (float) $row['total_expense'];
 }
 
 ?>
@@ -414,16 +414,16 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-    const chartCanvas = document.getElementById('financeChart');
+        const chartCanvas = document.getElementById('financeChart');
 
-    if (chartCanvas) {
-        const ctx = chartCanvas.getContext('2d');
+        if (chartCanvas) {
+            const ctx = chartCanvas.getContext('2d');
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?php echo json_encode($labels); ?>,
-                datasets: [{
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: <?php echo json_encode($labels); ?>,
+                    datasets: [{
                         label: 'Income',
                         data: <?php echo json_encode($data_income); ?>,
                         borderColor: '#16a34a',
@@ -451,83 +451,83 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
                         pointBackgroundColor: '#dc2626',
                         pointBorderWidth: 0
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false
+                    ]
                 },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                        labels: {
-                            usePointStyle: true,
-                            pointStyle: 'circle',
-                            boxWidth: 8,
-                            boxHeight: 8,
-                            padding: 20,
-                            color: '#64748b',
-                            font: {
-                                size: 12,
-                                weight: '600'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                boxWidth: 8,
+                                boxHeight: 8,
+                                padding: 20,
+                                color: '#64748b',
+                                font: {
+                                    size: 12,
+                                    weight: '600'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: '#0f172a',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            padding: 12,
+                            displayColors: true,
+                            callbacks: {
+                                title: function (context) {
+                                    return context[0].label;
+                                },
+                                label: function (context) {
+                                    return context.dataset.label + ': Rp ' +
+                                        Number(context.raw).toLocaleString('id-ID');
+                                }
                             }
                         }
                     },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#0f172a',
-                        titleColor: '#ffffff',
-                        bodyColor: '#ffffff',
-                        padding: 12,
-                        displayColors: true,
-                        callbacks: {
-                            title: function(context) {
-                                return context[0].label;
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
                             },
-                            label: function(context) {
-                                return context.dataset.label + ': Rp ' +
-                                    Number(context.raw).toLocaleString('id-ID');
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: '#94a3b8',
-                            font: {
-                                size: 11,
-                                weight: '600'
+                            ticks: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 11,
+                                    weight: '600'
+                                }
+                            },
+                            border: {
+                                display: false
                             }
                         },
-                        border: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(148, 163, 184, 0.12)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            display: false
-                        },
-                        border: {
-                            display: false
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.12)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                display: false
+                            },
+                            border: {
+                                display: false
+                            }
                         }
                     }
                 }
-            }
-        });
-    }
+            });
+        }
     </script>
 
 </body>
