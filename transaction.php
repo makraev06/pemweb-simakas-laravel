@@ -8,6 +8,42 @@ $filter_jenis = $_GET['jenis'] ?? '';
 $filter_start = $_GET['start_date'] ?? '';
 $filter_end = $_GET['end_date'] ?? '';
 
+$limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
+if (!in_array($limit, [10, 25, 50])) {
+    $limit = 10;
+}
+
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
+if ($page < 1) {
+    $page = 1;
+}
+
+$offset = ($page - 1) * $limit;
+
+/* QUERY COUNT */
+$count_sql = "SELECT COUNT(*) as total FROM transactions WHERE user_id = $user_id";
+
+if (!empty($filter_jenis)) {
+    $count_sql .= " AND jenis = '$filter_jenis'";
+}
+
+if (!empty($filter_start)) {
+    $count_sql .= " AND tanggal >= '$filter_start'";
+}
+
+if (!empty($filter_end)) {
+    $count_sql .= " AND tanggal <= '$filter_end'";
+}
+
+$count_query = mysqli_query($conn, $count_sql);
+$count_data = mysqli_fetch_assoc($count_query);
+$total_data = $count_data['total'] ?? 0;
+$total_pages = ceil($total_data / $limit);
+$start_data = ($offset + 1);
+$show_end = min($offset + $limit, $total_data);
+
+/* QUERY DATA */
 $sql = "SELECT * FROM transactions WHERE user_id = $user_id";
 
 if (!empty($filter_jenis)) {
@@ -22,10 +58,12 @@ if (!empty($filter_end)) {
     $sql .= " AND tanggal <= '$filter_end'";
 }
 
-$sql .= " ORDER BY tanggal DESC, id DESC";
+$sql .= " ORDER BY tanggal DESC, id DESC LIMIT $limit OFFSET $offset";
 
 $query = mysqli_query($conn, $sql);
 
+$activePage = 'transaction';
+$searchPlaceholder = 'Cari transaksi...';
 ?>
 
 <?php
@@ -139,26 +177,44 @@ $searchPlaceholder = 'Cari Transaksi...';
             <div class="p-6 flex items-center justify-between bg-surface-container-low/50">
                 <h3 class="font-['Manrope'] font-semibold text-on-surface">Catatan Transaksi Terbaru</h3>
                 <div class="flex items-center gap-4">
-                    <span class="text-xs text-outline font-medium">Menampilkan 1-10 dari 451</span>
-                    <div class="flex gap-1">
-                        <button class="p-1 rounded hover:bg-surface-container-high text-outline"><span
-                                class="material-symbols-outlined">chevron_left</span></button>
-                        <button class="p-1 rounded hover:bg-surface-container-high text-outline"><span
-                                class="material-symbols-outlined">chevron_right</span></button>
+                    <span class="text-xs text-outline font-medium">
+                        Menampilkan <?php echo $start_data; ?>-<?php echo $show_end; ?> dari <?php echo $total_data; ?>
+                    </span>
+                    <div class="flex items-center gap-1">
+
+                        <?php if ($page > 1): ?>
+                            <a href="?page=<?php echo $page - 1; ?>&limit=<?php echo $limit; ?>&jenis=<?php echo $filter_jenis; ?>&start_date=<?php echo $filter_start; ?>&end_date=<?php echo $filter_end; ?>"
+                                class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition">
+
+                                <span class="material-symbols-outlined">chevron_left</span>
+
+                            </a>
+                        <?php endif; ?>
+
+
+                        <?php if ($page < $total_pages): ?>
+                            <a href="?page=<?php echo $page + 1; ?>&limit=<?php echo $limit; ?>&jenis=<?php echo $filter_jenis; ?>&start_date=<?php echo $filter_start; ?>&end_date=<?php echo $filter_end; ?>"
+                                class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition">
+
+                                <span class="material-symbols-outlined">chevron_right</span>
+
+                            </a>
+                        <?php endif; ?>
+
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto">
+
+            <div class="max-h-[520px] overflow-y-auto overflow-x-auto">
                 <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr
-                            class="bg-surface-container-low text-[10px] font-bold text-outline uppercase tracking-widest">
+                    <thead class="sticky top-0 z-10 bg-surface-container-low">
+                        <tr class="text-[10px] font-bold text-outline uppercase tracking-widest">
                             <th class="px-6 py-4">Date</th>
                             <th class="px-6 py-4">Type</th>
                             <th class="px-6 py-4">Description</th>
                             <th class="px-6 py-4 text-right">Account</th>
                             <th class="px-6 py-4 text-right">Amount</th>
-                            <th class="px-6 py-4 w-10"></th>
+                            <th class="px-6 py-4 text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant/10">
@@ -242,14 +298,19 @@ $searchPlaceholder = 'Cari Transaksi...';
             </div>
             <div
                 class="p-6 bg-surface-container-low/30 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
+                <form method="GET" class="flex items-center gap-2">
+                    <input type="hidden" name="start_date" value="<?php echo htmlspecialchars($filter_start); ?>">
+                    <input type="hidden" name="end_date" value="<?php echo htmlspecialchars($filter_end); ?>">
+                    <input type="hidden" name="jenis" value="<?php echo htmlspecialchars($filter_jenis); ?>">
+
                     <span class="text-xs text-outline">Items per page:</span>
-                    <select class="bg-transparent border-none text-xs font-bold focus:ring-0 cursor-pointer">
-                        <option>10</option>
-                        <option>25</option>
-                        <option>50</option>
+                    <select name="limit" onchange="this.form.submit()"
+                        class="bg-transparent border-none text-xs font-bold focus:ring-0 cursor-pointer">
+                        <option value="10" <?php echo $limit == 10 ? 'selected' : ''; ?>>10</option>
+                        <option value="25" <?php echo $limit == 25 ? 'selected' : ''; ?>>25</option>
+                        <option value="50" <?php echo $limit == 50 ? 'selected' : ''; ?>>50</option>
                     </select>
-                </div>
+                </form>
                 <div class="flex items-center gap-1">
                     <button
                         class="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-outline-variant/20 text-xs font-bold text-primary shadow-sm">1</button>
