@@ -119,7 +119,7 @@ $searchPlaceholder = 'Search transactions...';
                                     class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
                                     Tanggal
                                 </label>
-                                <input name="tanggal"
+                                <input name="tanggal" value="<?= date('Y-m-d') ?>"
                                     class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
                                     type="date" required />
                             </div>
