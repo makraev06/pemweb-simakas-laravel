@@ -88,9 +88,10 @@ $searchPlaceholder = 'Cari transaksi...';
             </div>
             <div class="flex items-center gap-3">
                 <button
+                    onclick="window.location.href='add_transaction.php'"
                     class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white font-semibold py-2.5 px-6 rounded-lg shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all text-sm">
                     <span class="material-symbols-outlined text-lg">add</span>
-                    <a href="add_transaction.php">Tambah Transaksi</a>
+                    Tambah Transaksi
                 </button>
             </div>
         </div>

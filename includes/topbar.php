@@ -5,15 +5,20 @@ $showLogoutButton = $showLogoutButton ?? false;
 <header
     class="sticky top-0 z-40 flex justify-between items-center px-8 h-16 ml-64 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
     <div class="flex items-center flex-1 max-w-xl">
-        <div class="relative w-full focus-within:ring-2 focus-within:ring-emerald-500/20 rounded-lg">
-            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
-                <span class="material-symbols-outlined text-[20px]">search</span>
-            </span>
-            <input
-                id="searchTransaksi"
-                class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-sm focus:ring-0 placeholder:text-slate-400"
-                placeholder="<?= htmlspecialchars($searchPlaceholder); ?>" type="text" />
-        </div>
+
+        <?php if (!isset($hideSearch) || !$hideSearch): ?>
+
+            <div class="relative w-full focus-within:ring-2 focus-within:ring-emerald-500/20 rounded-lg">
+                <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+                    <span class="material-symbols-outlined text-[20px]">search</span>
+                </span>
+                <input id="searchTransaksi"
+                    class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-sm focus:ring-0 placeholder:text-slate-400"
+                    placeholder="<?= htmlspecialchars($searchPlaceholder); ?>" type="text" />
+            </div>
+
+        <?php endif; ?>
+
     </div>
 
     <div class="flex items-center gap-4 ml-6">

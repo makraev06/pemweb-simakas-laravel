@@ -4,6 +4,7 @@ include 'includes/auth_check.php';
 $pageTitle = 'Add Transaction | CashTrack';
 $activePage = 'transaction';
 $searchPlaceholder = 'Search transactions...';
+$hideSearch = true;
 ?>
 
 <!DOCTYPE html>
