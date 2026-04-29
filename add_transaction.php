@@ -52,10 +52,6 @@ $searchPlaceholder = 'Search transactions...';
                                             <option value="income">Dana Masuk</option>
                                             <option value="expense">Dana Keluar</option>
                                         </select>
-                                        <span
-                                            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                            expand_more
-                                        </span>
                                     </div>
                                 </div>
 
