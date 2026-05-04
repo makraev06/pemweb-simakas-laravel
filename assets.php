@@ -39,10 +39,10 @@ $topbarTitle = 'Assets';
     <?php include 'includes/sidebar.php'; ?>
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="ml-64 space-y-8 px-4 py-6 sm:px-6 lg:px-8">
+    <main class="ml-64 space-y-8 px-4 py-6 sm:px-6 lg:px-8 animate-fade-up">
         <section class="grid grid-cols-1 gap-8 xl:grid-cols-3">
             <div
-                class="xl:col-span-2 relative overflow-hidden rounded-xl bg-gradient-to-br from-primary to-primary-container p-8 text-white shadow-lg">
+                class="xl:col-span-2 relative overflow-hidden rounded-xl bg-gradient-to-br from-primary to-primary-container p-8 text-white shadow-lg animate-fade-up">
                 <div class="relative z-10 flex h-full flex-col justify-between">
                     <div>
                         <span class="text-primary-fixed text-xs font-bold uppercase tracking-widest opacity-80">
@@ -80,7 +80,7 @@ $topbarTitle = 'Assets';
                 </div>
             </div>
 
-            <div class="rounded-xl bg-surface-container-low p-6 flex flex-col justify-center">
+            <div class="rounded-xl bg-surface-container-low p-6 flex flex-col justify-center animate-fade-up-delay-1">
                 <h3 class="mb-4 text-sm font-semibold uppercase tracking-tighter text-on-surface-variant">
                     Aksi Cepat
                 </h3>
@@ -88,7 +88,8 @@ $topbarTitle = 'Assets';
                 <div class="grid grid-cols-2 gap-3">
                     <a href="add_asset.php"
                         class="group flex flex-col items-center gap-2 rounded-lg bg-surface-container-lowest p-4 shadow-sm transition-all hover:bg-white">
-                        <span class="material-symbols-outlined text-primary transition-transform group-hover:scale-110">
+                        <span
+                            class="material-symbols-outlined text-primary transition-transform group-hover:scale-110 icon-hover">
                             add_card
                         </span>
                         <span class="text-xs font-medium">Tambah Aset</span>
@@ -96,7 +97,8 @@ $topbarTitle = 'Assets';
 
                     <button type="button"
                         class="group flex flex-col items-center gap-2 rounded-lg bg-surface-container-lowest p-4 shadow-sm transition-all hover:bg-white">
-                        <span class="material-symbols-outlined text-primary transition-transform group-hover:scale-110">
+                        <span
+                            class="material-symbols-outlined text-primary transition-transform group-hover:scale-110 icon-hover">
                             ios_share
                         </span>
                         <span class="text-xs font-medium">Eksport Data</span>

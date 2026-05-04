@@ -11,7 +11,7 @@ function navClass($key, $activePage)
 }
 ?>
 <aside
-    class="fixed left-0 top-0 h-full flex flex-col p-4 bg-slate-50 dark:bg-slate-900 h-screen w-64 border-r-0 shadow-[12px_0px_32px_rgba(25,28,30,0.04)] z-50">
+    class="fixed left-0 top-0 h-full flex flex-col p-4 bg-slate-50 dark:bg-slate-900 h-screen w-64 border-r-0 shadow-[12px_0px_32px_rgba(25,28,30,0.04)] z-50 animate-slide-in-left">
     <div class="flex items-center gap-3 mb-10 px-2">
         <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
             <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">account_balance</span>
@@ -27,15 +27,15 @@ function navClass($key, $activePage)
     </div>
 
     <nav class="flex-1 space-y-2">
-        <a class="<?= navClass('dashboard', $activePage); ?>" href="dashboard.php">
+        <a class="<?= navClass('dashboard', $activePage); ?> nav-hover" href="dashboard.php">
             <span class="material-symbols-outlined">dashboard</span>
             <span>Dashboard</span>
         </a>
-        <a class="<?= navClass('transaction', $activePage); ?>" href="transaction.php">
+        <a class="<?= navClass('transaction', $activePage); ?> nav-hover" href="transaction.php">
             <span class="material-symbols-outlined">account_balance_wallet</span>
             <span>Transactions</span>
         </a>
-        <a class="<?= navClass('assets', $activePage); ?>" href="assets.php">
+        <a class="<?= navClass('assets', $activePage); ?> nav-hover" href="assets.php">
             <span class="material-symbols-outlined">account_balance</span>
             <span>Assets</span>
         </a>

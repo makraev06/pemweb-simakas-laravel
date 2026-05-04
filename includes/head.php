@@ -112,5 +112,193 @@ $pageTitle = $pageTitle ?? 'Dashboard CashTrack';
         .chart-gradient-tertiary {
             background: linear-gradient(180deg, rgba(155, 64, 62, 0.1) 0%, rgba(155, 64, 62, 0) 100%);
         }
+
+        /* Animasi dan Transisi */
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-fade-up {
+                animation: fadeUp 0.4s ease-out forwards;
+            }
+
+            .animate-fade-up-delay-1 {
+                animation: fadeUp 0.4s ease-out 0.1s forwards;
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            .animate-fade-up-delay-2 {
+                animation: fadeUp 0.4s ease-out 0.2s forwards;
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            .animate-fade-up-delay-3 {
+                animation: fadeUp 0.4s ease-out 0.3s forwards;
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            .animate-slide-in-left {
+                animation: slideInLeft 0.5s ease-out forwards;
+            }
+
+            .animate-slide-down {
+                animation: slideDown 0.3s ease-out forwards;
+            }
+
+            .animate-scale-in {
+                animation: scaleIn 0.3s ease-out forwards;
+            }
+
+            .animate-pulse-soft {
+                animation: pulseSoft 2s infinite;
+            }
+
+            .page-leave {
+                animation: fadeOut 0.2s ease-in forwards;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulseSoft {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Hover dan Micro Interactions */
+        .btn-hover {
+            transition: all 0.2s ease;
+        }
+
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-hover:active {
+            transform: scale(0.98);
+        }
+
+        .nav-hover {
+            transition: all 0.2s ease;
+        }
+
+        .nav-hover:hover {
+            transform: translateX(4px);
+        }
+
+        .card-hover {
+            transition: all 0.2s ease;
+        }
+
+        .card-hover:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-focus {
+            transition: all 0.2s ease;
+        }
+
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(0, 107, 71, 0.1);
+        }
+
+        .icon-hover {
+            transition: transform 0.2s ease;
+        }
+
+        .group:hover .icon-hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Dropdown smooth */
+        .dropdown {
+            transition: all 0.2s ease;
+        }
     </style>
-</head>
+
+    <script>
+        // Page leave animation for internal links
+        document.addEventListener('DOMContentLoaded', function () {
+            const links = document.querySelectorAll('a[href]');
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+                // Only for internal .php links, not forms, downloads, logout, external, etc.
+                if (href && href.endsWith('.php') && !href.includes('logout') && !href.includes('export') && !link.hasAttribute('target') && !link.hasAttribute('download')) {
+                    link.addEventListener('click', function (e) {
+                        // Skip if Ctrl+click, middle click, or target blank
+                        if (e.ctrlKey || e.metaKey || e.button === 1) return;
+                        e.preventDefault();
+                        document.body.classList.add('page-leave');
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 200);
+                    });
+                }
+            });
+        });
+    </script>

@@ -37,7 +37,7 @@ $notifications = [
 
 <body class="bg-slate-50 text-slate-800">
 
-    <main class="max-w-2xl mx-auto mt-10 px-4">
+    <main class="max-w-2xl mx-auto mt-10 px-4 animate-fade-up">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
 
             <div class="p-5 border-b border-slate-200 flex items-center justify-between">

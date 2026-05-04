@@ -18,7 +18,7 @@ unset($_SESSION['form_error']);
     <?php include 'includes/topbar.php'; ?>
 
     <!-- Main Content -->
-    <main class="ml-64 min-h-[calc(100vh-128px)] p-8">
+    <main class="ml-64 min-h-[calc(100vh-128px)] p-8 animate-fade-up">
         <div class="max-w-5xl mx-auto">
             <!-- Breadcrumb -->
             <div class="mb-10">
@@ -35,9 +35,11 @@ unset($_SESSION['form_error']);
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <!-- Left Form -->
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.04)]">
+                    <div
+                        class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.04)] animate-scale-in">
                         <?php if (!empty($formError)): ?>
-                            <div class="mb-6 rounded-lg bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
+                            <div
+                                class="mb-6 rounded-lg bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
                                 <?php echo htmlspecialchars($formError); ?>
                             </div>
                         <?php endif; ?>
@@ -144,8 +146,7 @@ unset($_SESSION['form_error']);
                                     class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
                                     Tanggal
                                 </label>
-                                <input name="tanggal_perolehan"
-                                    value="<?= date('Y-m-d') ?>"
+                                <input name="tanggal_perolehan" value="<?= date('Y-m-d') ?>"
                                     class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
                                     type="date" required />
                             </div>

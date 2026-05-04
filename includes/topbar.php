@@ -3,7 +3,7 @@ $searchPlaceholder = $searchPlaceholder ?? 'Search...';
 $showLogoutButton = $showLogoutButton ?? false;
 ?>
 <header
-    class="sticky top-0 z-40 flex justify-between items-center px-8 h-16 ml-64 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+    class="sticky top-0 z-40 flex justify-between items-center px-8 h-16 ml-64 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 animate-slide-down">
     <div class="flex items-center flex-1 max-w-xl">
 
         <?php if (!isset($hideSearch) || !$hideSearch): ?>
@@ -13,7 +13,7 @@ $showLogoutButton = $showLogoutButton ?? false;
                     <span class="material-symbols-outlined text-[20px]">search</span>
                 </span>
                 <input id="searchTransaksi"
-                    class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-sm focus:ring-0 placeholder:text-slate-400"
+                    class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-sm focus:ring-0 placeholder:text-slate-400 input-focus"
                     placeholder="<?= htmlspecialchars($searchPlaceholder); ?>" type="text" />
             </div>
 
@@ -25,7 +25,8 @@ $showLogoutButton = $showLogoutButton ?? false;
         <a href="notifications.php"
             class="p-2 text-slate-500 hover:text-emerald-500 transition-colors relative inline-block">
             <span class="material-symbols-outlined">notifications</span>
-            <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+            <span
+                class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-white animate-pulse-soft"></span>
         </a>
 
         <?php if ($showLogoutButton): ?>
@@ -41,7 +42,7 @@ $showLogoutButton = $showLogoutButton ?? false;
                 </button>
 
                 <div
-                    class="absolute right-0 mt-3 w-44 bg-white border border-slate-200 rounded-xl shadow-lg opacity-0 invisible translate-y-2 scale-95 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:scale-100 transition-all duration-200 origin-top-right">
+                    class="absolute right-0 mt-3 w-44 bg-white border border-slate-200 rounded-xl shadow-lg opacity-0 invisible translate-y-2 scale-95 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:scale-100 transition-all duration-200 origin-top-right dropdown">
                     <a href="#" class="block px-4 py-2 text-sm text-slate-600 hover:bg-slate-100">
                         Profile
                     </a>

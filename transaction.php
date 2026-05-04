@@ -95,7 +95,7 @@ $searchPlaceholder = 'Cari transaksi...';
     <?php include 'includes/sidebar.php'; ?>
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="ml-64 p-8 min-h-[calc(100vh-64px-60px)]">
+    <main class="ml-64 p-8 min-h-[calc(100vh-64px-60px)] animate-fade-up">
         <!-- Header Actions Section -->
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
@@ -108,9 +108,8 @@ $searchPlaceholder = 'Cari transaksi...';
                     Histori Transaksi</h2>
             </div>
             <div class="flex items-center gap-3">
-                <button
-                    onclick="window.location.href='add_transaction.php'"
-                    class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white font-semibold py-2.5 px-6 rounded-lg shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all text-sm">
+                <button onclick="window.location.href='add_transaction.php'"
+                    class="flex items-center gap-2 bg-gradient-to-br from-primary to-primary-container text-white font-semibold py-2.5 px-6 rounded-lg shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all text-sm btn-hover">
                     <span class="material-symbols-outlined text-lg">add</span>
                     Tambah Transaksi
                 </button>

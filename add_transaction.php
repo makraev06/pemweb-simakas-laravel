@@ -28,7 +28,7 @@ unset($_SESSION['form_error']);
     <?php include 'includes/topbar.php'; ?>
 
     <!-- Main Content Area -->
-    <main class="ml-64 min-h-[calc(100vh-128px)] p-8">
+    <main class="ml-64 min-h-[calc(100vh-128px)] p-8 animate-fade-up">
         <div class="max-w-5xl mx-auto">
             <!-- Breadcrumbs & Heading -->
             <div class="mb-10">
@@ -47,7 +47,8 @@ unset($_SESSION['form_error']);
 
                 <!-- Left: Primary Form -->
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.04)]">
+                    <div
+                        class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.04)] animate-scale-in">
                         <?php if (!empty($formError)): ?>
                             <div
                                 class="mb-6 rounded-lg bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
@@ -65,7 +66,7 @@ unset($_SESSION['form_error']);
                                     </label>
                                     <div class="relative group">
                                         <select id="jenis" name="jenis"
-                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium"
+                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium input-focus"
                                             required>
                                             <option value="">Pilih jenis transaksi</option>
                                             <option value="income">Dana Masuk</option>
@@ -83,7 +84,7 @@ unset($_SESSION['form_error']);
                                         <span
                                             class="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
                                         <input id="jumlah" name="jumlah"
-                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
+                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-emerald-500/10 transition-all input-focus"
                                             placeholder="0.00" type="number" min="0" step="0.01" required />
                                     </div>
                                 </div>

@@ -161,7 +161,7 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
     <?php include 'includes/sidebar.php'; ?>
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="ml-64 p-8 min-h-screen">
+    <main class="ml-64 p-8 min-h-screen animate-fade-up">
         <!-- Header Section -->
         <div class="mb-10">
             <h2 class="text-3xl font-bold tracking-tight text-on-surface mb-1">
@@ -175,7 +175,7 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
             <!-- Total Balance -->
             <div
-                class="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md">
+                class="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md card-hover">
                 <div class="flex justify-between items-start mb-5">
                     <div>
                         <span class="text-slate-400 uppercase tracking-widest text-[10px] font-bold">Overview</span>
@@ -200,7 +200,7 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
 
             <!-- Income Bulan Ini -->
             <div
-                class="bg-green-50 rounded-[24px] p-6 border border-green-200 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md">
+                class="bg-green-50 rounded-[24px] p-6 border border-green-200 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md card-hover">
                 <div class="flex justify-between items-start mb-5">
                     <div>
                         <span class="text-green-600 uppercase tracking-widest text-[10px] font-bold">Bulan Ini</span>
@@ -230,7 +230,7 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
 
             <!-- Expense Bulan Ini -->
             <div
-                class="bg-red-50 rounded-[24px] p-6 border border-red-200 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md">
+                class="bg-red-50 rounded-[24px] p-6 border border-red-200 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md card-hover">
                 <div class="flex justify-between items-start mb-5">
                     <div>
                         <span class="text-red-600 uppercase tracking-widest text-[10px] font-bold">Bulan Ini</span>
@@ -260,7 +260,7 @@ $searchPlaceholder = 'Cari Buku Besar Aset...';
 
             <!-- Total Assets -->
             <div
-                class="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md">
+                class="bg-surface-container-lowest rounded-[24px] p-6 border border-outline-variant/20 shadow-[0px_4px_20px_rgba(0,0,0,0.02)] transition-all hover:shadow-md card-hover">
                 <div class="flex justify-between items-start mb-5">
                     <div>
                         <span class="text-secondary uppercase tracking-widest text-[10px] font-bold">Portfolio</span>
