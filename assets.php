@@ -2,19 +2,25 @@
 include 'includes/auth_check.php';
 include 'config/database.php';
 
-$user_id = $_SESSION['user_id'];
+$user_id = (int) $_SESSION['user_id'];
 
-$query_assets = mysqli_query($conn, "
+$stmt_assets = mysqli_prepare($conn, "
     SELECT * FROM assets
-    WHERE user_id = $user_id
+    WHERE user_id = ?
     ORDER BY id DESC
 ");
+mysqli_stmt_bind_param($stmt_assets, "i", $user_id);
+mysqli_stmt_execute($stmt_assets);
+$query_assets = mysqli_stmt_get_result($stmt_assets);
 
-$query_total = mysqli_query($conn, "
+$stmt_total = mysqli_prepare($conn, "
     SELECT SUM(nilai) as total_asset, COUNT(*) as total_item
     FROM assets
-    WHERE user_id = $user_id
+    WHERE user_id = ?
 ");
+mysqli_stmt_bind_param($stmt_total, "i", $user_id);
+mysqli_stmt_execute($stmt_total);
+$query_total = mysqli_stmt_get_result($stmt_total);
 
 $data_total = mysqli_fetch_assoc($query_total);
 

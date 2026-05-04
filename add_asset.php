@@ -5,6 +5,8 @@ $pageTitle = 'Add Asset | The Sovereign Ledger';
 $activePage = 'assets';
 $searchPlaceholder = 'Search asset records...';
 $topbarTitle = 'Add Asset';
+$formError = $_SESSION['form_error'] ?? '';
+unset($_SESSION['form_error']);
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +36,11 @@ $topbarTitle = 'Add Asset';
                 <!-- Left Form -->
                 <div class="lg:col-span-8 space-y-6">
                     <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.04)]">
+                        <?php if (!empty($formError)): ?>
+                            <div class="mb-6 rounded-lg bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
+                                <?php echo htmlspecialchars($formError); ?>
+                            </div>
+                        <?php endif; ?>
                         <form action="process/asset_store.php" method="POST" class="space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="space-y-2">
@@ -77,6 +84,7 @@ $topbarTitle = 'Add Asset';
                                             <option value="Emas">Emas</option>
                                             <option value="Tabungan">Tabungan</option>
                                             <option value="Elektronik">Elektronik</option>
+                                            <option value="Peralatan">Peralatan</option>
                                             <option value="Investasi">Investasi</option>
                                             <option value="Lainnya">Lainnya</option>
                                         </select>
@@ -113,7 +121,7 @@ $topbarTitle = 'Add Asset';
                                     class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
                                     Keterangan
                                 </label>
-                                <input name="keterangan"
+                                <input name="deskripsi"
                                     class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
                                     placeholder="e.g. Asset kantor, investasi pribadi, kendaraan operasional..."
                                     type="text" required />
@@ -136,7 +144,7 @@ $topbarTitle = 'Add Asset';
                                     class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
                                     Tanggal
                                 </label>
-                                <input name="tanggal"
+                                <input name="tanggal_perolehan"
                                     value="<?= date('Y-m-d') ?>"
                                     class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
                                     type="date" required />

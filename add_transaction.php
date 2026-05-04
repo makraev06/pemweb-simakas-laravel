@@ -1,10 +1,22 @@
 <?php
 include 'includes/auth_check.php';
+include 'config/database.php';
+
+$user_id = $_SESSION['user_id'];
+
+$accounts = mysqli_query($conn, "
+    SELECT account_id, account_name, account_type
+    FROM accounts
+    WHERE user_id = $user_id
+    ORDER BY account_name ASC
+");
 
 $pageTitle = 'Add Transaction | CashTrack';
 $activePage = 'transaction';
 $searchPlaceholder = 'Search transactions...';
 $hideSearch = true;
+$formError = $_SESSION['form_error'] ?? '';
+unset($_SESSION['form_error']);
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +48,12 @@ $hideSearch = true;
                 <!-- Left: Primary Form -->
                 <div class="lg:col-span-8 space-y-6">
                     <div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0px_12px_32px_rgba(25,28,30,0.04)]">
+                        <?php if (!empty($formError)): ?>
+                            <div
+                                class="mb-6 rounded-lg bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
+                                <?php echo htmlspecialchars($formError); ?>
+                            </div>
+                        <?php endif; ?>
                         <form action="process/transaction_store.php" method="POST" class="space-y-8">
 
                             <!-- Transaction Type & Amount Grid -->
@@ -46,7 +64,7 @@ $hideSearch = true;
                                         Jenis Transaksi
                                     </label>
                                     <div class="relative group">
-                                        <select name="jenis"
+                                        <select id="jenis" name="jenis"
                                             class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium"
                                             required>
                                             <option value="">Pilih jenis transaksi</option>
@@ -56,7 +74,7 @@ $hideSearch = true;
                                     </div>
                                 </div>
 
-                                <div class="space-y-2">
+                                <div id="jumlahField" class="space-y-2">
                                     <label
                                         class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
                                         Jumlah
@@ -64,30 +82,116 @@ $hideSearch = true;
                                     <div class="relative">
                                         <span
                                             class="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
-                                        <input name="jumlah"
+                                        <input id="jumlah" name="jumlah"
                                             class="w-full bg-surface-container-low border-none rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
-                                            placeholder="0.00" type="number" required />
+                                            placeholder="0.00" type="number" min="0" step="0.01" required />
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Account Selection -->
-                            <div class="space-y-2">
-                                <label
-                                    class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
-                                    Sumber Akun
-                                </label>
-                                <div class="relative group">
-                                    <select name="account"
-                                        class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium">
-                                        <option>Akun Operasional Perusahaan (**** 9012)</option>
-                                        <option>Dana Cadangan (**** 4432)</option>
-                                        <option>Dana Belanja Modal (**** 1109)</option>
-                                    </select>
-                                    <span
-                                        class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                        account_balance
-                                    </span>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
+                                        Kategori
+                                    </label>
+                                    <div class="relative group">
+                                        <select id="category" name="category"
+                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium"
+                                            required>
+                                            <option value="">Pilih jenis transaksi dulu</option>
+                                        </select>
+                                        <span
+                                            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                            expand_more
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
+                                        Sumber Akun
+                                    </label>
+                                    <div class="relative group">
+                                        <select name="account_id"
+                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 pr-12 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium"
+                                            required>
+                                            <option value="">Pilih sumber akun</option>
+
+                                            <?php while ($account = mysqli_fetch_assoc($accounts)): ?>
+                                                <option value="<?php echo $account['account_id']; ?>">
+                                                    <?php echo htmlspecialchars($account['account_name']); ?>
+                                                    <?php if (!empty($account['account_type'])): ?>
+                                                        - <?php echo htmlspecialchars(ucfirst($account['account_type'])); ?>
+                                                    <?php endif; ?>
+                                                </option>
+                                            <?php endwhile; ?>
+                                        </select>
+
+                                        <span
+                                            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                            expand_more
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="assetFields"
+                                class="hidden space-y-6 rounded-xl border border-outline-variant/20 bg-surface-container-lowest p-5">
+                                <div>
+                                    <p class="text-[0.6875rem] font-bold text-emerald-700 uppercase tracking-widest">
+                                        Detail Aset
+                                    </p>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label
+                                            class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
+                                            Nama Aset
+                                        </label>
+                                        <input id="asset_name" name="asset_name"
+                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
+                                            placeholder="e.g. Laptop kantor, motor operasional" type="text" />
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label
+                                            class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
+                                            Jenis Aset
+                                        </label>
+                                        <div class="relative group">
+                                            <select id="asset_type" name="asset_type"
+                                                class="w-full bg-surface-container-low border-none rounded-lg py-3 px-4 appearance-none focus:ring-2 focus:ring-emerald-500/10 transition-all font-medium">
+                                                <option value="">Pilih jenis aset</option>
+                                                <option value="Kendaraan">Kendaraan</option>
+                                                <option value="Elektronik">Elektronik</option>
+                                                <option value="Properti">Properti</option>
+                                                <option value="Peralatan">Peralatan</option>
+                                                <option value="Investasi">Investasi</option>
+                                                <option value="Lainnya">Lainnya</option>
+                                            </select>
+                                            <span
+                                                class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                expand_more
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-widest">
+                                        Nilai Aset
+                                    </label>
+                                    <div class="relative">
+                                        <span
+                                            class="absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
+                                        <input id="asset_value" name="asset_value"
+                                            class="w-full bg-surface-container-low border-none rounded-lg py-3 pl-8 pr-4 focus:ring-2 focus:ring-emerald-500/10 transition-all"
+                                            placeholder="0.00" type="number" min="0" step="0.01" />
+                                    </div>
                                 </div>
                             </div>
 
@@ -228,6 +332,81 @@ $hideSearch = true;
             </span>
         </div>
     </footer>
+    <script>
+        const jenisInput = document.getElementById('jenis');
+        const jumlahField = document.getElementById('jumlahField');
+        const jumlahInput = document.getElementById('jumlah');
+        const categoryInput = document.getElementById('category');
+        const assetFields = document.getElementById('assetFields');
+        const assetNameInput = document.getElementById('asset_name');
+        const assetTypeInput = document.getElementById('asset_type');
+        const assetValueInput = document.getElementById('asset_value');
+        const categoryOptions = {
+            income: [
+                'Gaji',
+                'Bonus',
+                'Penjualan',
+                'Investasi',
+                'Hadiah',
+                'Lainnya'
+            ],
+            expense: [
+                'Makanan',
+                'Transportasi',
+                'Tagihan',
+                'Belanja',
+                'Investasi',
+                'Pembelian Aset',
+                'Lainnya'
+            ]
+        };
+
+        function renderCategoryOptions() {
+            const selectedJenis = jenisInput.value;
+            const currentCategory = categoryInput.value;
+            categoryInput.innerHTML = '';
+
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = selectedJenis ? 'Pilih kategori transaksi' : 'Pilih jenis transaksi dulu';
+            categoryInput.appendChild(placeholder);
+
+            if (!categoryOptions[selectedJenis]) {
+                categoryInput.value = '';
+                toggleAssetFields();
+                return;
+            }
+
+            categoryOptions[selectedJenis].forEach(function (category) {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryInput.appendChild(option);
+            });
+
+            categoryInput.value = categoryOptions[selectedJenis].includes(currentCategory) ? currentCategory : '';
+            toggleAssetFields();
+        }
+
+        function toggleAssetFields() {
+            const shouldShow = categoryInput.value === 'Pembelian Aset';
+            assetFields.classList.toggle('hidden', !shouldShow);
+            jumlahField.classList.toggle('hidden', shouldShow);
+            jumlahInput.required = !shouldShow;
+            assetNameInput.required = shouldShow;
+            assetTypeInput.required = shouldShow;
+            assetValueInput.required = shouldShow;
+            jenisInput.setCustomValidity(
+                shouldShow && jenisInput.value === 'income' ?
+                    'Pembelian Aset hanya bisa digunakan untuk Dana Keluar.' :
+                    ''
+            );
+        }
+
+        categoryInput.addEventListener('change', toggleAssetFields);
+        jenisInput.addEventListener('change', renderCategoryOptions);
+        renderCategoryOptions();
+    </script>
 </body>
 
 </html>

@@ -2,11 +2,29 @@
 include 'includes/auth_check.php';
 include 'config/database.php';
 
-$user_id = $_SESSION['user_id'];
+$user_id = (int) $_SESSION['user_id'];
 
 $filter_jenis = $_GET['jenis'] ?? '';
 $filter_start = $_GET['start_date'] ?? '';
 $filter_end = $_GET['end_date'] ?? '';
+
+if (!in_array($filter_jenis, ['', 'income', 'expense'], true)) {
+    $filter_jenis = '';
+}
+
+function isValidFilterDate($date)
+{
+    $parsedDate = DateTime::createFromFormat('Y-m-d', $date);
+    return $parsedDate && $parsedDate->format('Y-m-d') === $date;
+}
+
+if (!empty($filter_start) && !isValidFilterDate($filter_start)) {
+    $filter_start = '';
+}
+
+if (!empty($filter_end) && !isValidFilterDate($filter_end)) {
+    $filter_end = '';
+}
 
 $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
 if (!in_array($limit, [10, 25, 50])) {
@@ -21,22 +39,35 @@ if ($page < 1) {
 
 $offset = ($page - 1) * $limit;
 
-/* QUERY COUNT */
-$count_sql = "SELECT COUNT(*) as total FROM transactions WHERE user_id = $user_id";
+$conditions = ["user_id = ?"];
+$types = "i";
+$params = [$user_id];
 
 if (!empty($filter_jenis)) {
-    $count_sql .= " AND jenis = '$filter_jenis'";
+    $conditions[] = "jenis = ?";
+    $types .= "s";
+    $params[] = $filter_jenis;
 }
 
 if (!empty($filter_start)) {
-    $count_sql .= " AND tanggal >= '$filter_start'";
+    $conditions[] = "tanggal >= ?";
+    $types .= "s";
+    $params[] = $filter_start;
 }
 
 if (!empty($filter_end)) {
-    $count_sql .= " AND tanggal <= '$filter_end'";
+    $conditions[] = "tanggal <= ?";
+    $types .= "s";
+    $params[] = $filter_end;
 }
 
-$count_query = mysqli_query($conn, $count_sql);
+/* QUERY COUNT */
+$where_sql = implode(" AND ", $conditions);
+$count_sql = "SELECT COUNT(*) as total FROM transactions WHERE $where_sql";
+$count_stmt = mysqli_prepare($conn, $count_sql);
+mysqli_stmt_bind_param($count_stmt, $types, ...$params);
+mysqli_stmt_execute($count_stmt);
+$count_query = mysqli_stmt_get_result($count_stmt);
 $count_data = mysqli_fetch_assoc($count_query);
 $total_data = $count_data['total'] ?? 0;
 $total_pages = ceil($total_data / $limit);
@@ -44,23 +75,13 @@ $start_data = ($offset + 1);
 $show_end = min($offset + $limit, $total_data);
 
 /* QUERY DATA */
-$sql = "SELECT * FROM transactions WHERE user_id = $user_id";
-
-if (!empty($filter_jenis)) {
-    $sql .= " AND jenis = '$filter_jenis'";
-}
-
-if (!empty($filter_start)) {
-    $sql .= " AND tanggal >= '$filter_start'";
-}
-
-if (!empty($filter_end)) {
-    $sql .= " AND tanggal <= '$filter_end'";
-}
-
-$sql .= " ORDER BY tanggal DESC, id DESC LIMIT $limit OFFSET $offset";
-
-$query = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM transactions WHERE $where_sql ORDER BY tanggal DESC, id DESC LIMIT ? OFFSET ?";
+$data_types = $types . "ii";
+$data_params = array_merge($params, [$limit, $offset]);
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, $data_types, ...$data_params);
+mysqli_stmt_execute($stmt);
+$query = mysqli_stmt_get_result($stmt);
 
 $activePage = 'transaction';
 $searchPlaceholder = 'Cari transaksi...';
@@ -207,6 +228,7 @@ $searchPlaceholder = 'Cari transaksi...';
                         <tr class="text-[10px] font-bold text-outline uppercase tracking-widest">
                             <th class="px-6 py-4">Date</th>
                             <th class="px-6 py-4">Type</th>
+                            <th class="px-6 py-4">Category</th>
                             <th class="px-6 py-4">Description</th>
                             <th class="px-6 py-4 text-right">Account</th>
                             <th class="px-6 py-4 text-right">Amount</th>
@@ -218,7 +240,7 @@ $searchPlaceholder = 'Cari transaksi...';
                             <?php while ($row = mysqli_fetch_assoc($query)): ?>
 
                                 <tr class="group hover:bg-surface-container-highest transition-colors cursor-pointer relative transaksi-item"
-                                    data-search="<?= strtolower($row['keterangan'] . ' ' . $row['jenis']) ?>">
+                                    data-search="<?= strtolower(($row['keterangan'] ?? '') . ' ' . ($row['jenis'] ?? '') . ' ' . ($row['category'] ?? '')) ?>">
                                     <!-- DATE -->
                                     <td class="px-6 py-4">
                                         <div class="flex flex-col">
@@ -245,10 +267,18 @@ $searchPlaceholder = 'Cari transaksi...';
                                         <?php endif; ?>
                                     </td>
 
+                                    <!-- CATEGORY -->
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 rounded bg-surface-container-low text-on-surface-variant text-[10px] font-bold uppercase">
+                                            <?php echo htmlspecialchars($row['category'] ?? 'Lainnya'); ?>
+                                        </span>
+                                    </td>
+
                                     <!-- DESCRIPTION -->
                                     <td class="px-6 py-4">
                                         <p class="text-sm font-medium text-on-surface">
-                                            <?php echo $row['keterangan']; ?>
+                                            <?php echo htmlspecialchars($row['keterangan']); ?>
                                         </p>
                                     </td>
 
@@ -284,7 +314,7 @@ $searchPlaceholder = 'Cari transaksi...';
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="text-center py-6 text-slate-400">
+                                <td colspan="7" class="text-center py-6 text-slate-400">
                                     Belum ada transaksi
                                 </td>
                             </tr>
