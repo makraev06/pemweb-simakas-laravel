@@ -3,7 +3,7 @@ $searchPlaceholder = $searchPlaceholder ?? 'Search...';
 $showLogoutButton = $showLogoutButton ?? false;
 ?>
 <header
-    class="sticky top-0 z-40 flex justify-between items-center px-8 h-16 ml-64 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 animate-slide-down">
+    class="sticky top-0 z-40 flex justify-between items-center px-8 h-16 ml-64 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
     <div class="flex items-center flex-1 max-w-xl">
 
         <?php if (!isset($hideSearch) || !$hideSearch): ?>

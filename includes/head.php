@@ -137,14 +137,6 @@ $pageTitle = $pageTitle ?? 'Dashboard CashTrack';
                 transform: translateY(20px);
             }
 
-            .animate-slide-in-left {
-                animation: slideInLeft 0.5s ease-out forwards;
-            }
-
-            .animate-slide-down {
-                animation: slideDown 0.3s ease-out forwards;
-            }
-
             .animate-scale-in {
                 animation: scaleIn 0.3s ease-out forwards;
             }
@@ -152,40 +144,12 @@ $pageTitle = $pageTitle ?? 'Dashboard CashTrack';
             .animate-pulse-soft {
                 animation: pulseSoft 2s infinite;
             }
-
-            .page-leave {
-                animation: fadeOut 0.2s ease-in forwards;
-            }
         }
 
         @keyframes fadeUp {
             from {
                 opacity: 0;
                 transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
             }
 
             to {
@@ -215,16 +179,6 @@ $pageTitle = $pageTitle ?? 'Dashboard CashTrack';
 
             50% {
                 opacity: 0.7;
-            }
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
             }
         }
 
@@ -280,25 +234,3 @@ $pageTitle = $pageTitle ?? 'Dashboard CashTrack';
             transition: all 0.2s ease;
         }
     </style>
-
-    <script>
-        // Page leave animation for internal links
-        document.addEventListener('DOMContentLoaded', function () {
-            const links = document.querySelectorAll('a[href]');
-            links.forEach(link => {
-                const href = link.getAttribute('href');
-                // Only for internal .php links, not forms, downloads, logout, external, etc.
-                if (href && href.endsWith('.php') && !href.includes('logout') && !href.includes('export') && !link.hasAttribute('target') && !link.hasAttribute('download')) {
-                    link.addEventListener('click', function (e) {
-                        // Skip if Ctrl+click, middle click, or target blank
-                        if (e.ctrlKey || e.metaKey || e.button === 1) return;
-                        e.preventDefault();
-                        document.body.classList.add('page-leave');
-                        setTimeout(() => {
-                            window.location.href = href;
-                        }, 200);
-                    });
-                }
-            });
-        });
-    </script>
