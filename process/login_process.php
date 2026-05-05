@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $stmt = mysqli_prepare($conn, "SELECT id, name, email, password FROM users WHERE email = ?");
+    $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
 
@@ -16,8 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user && password_verify($password, $user['password'])) {
 
+        session_regenerate_id(true);
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['name'] = $user['name'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['profile_photo'] = $user['profile_photo'] ?? '';
         $_SESSION['show_splash'] = true;
 
         header("Location: ../index.php");

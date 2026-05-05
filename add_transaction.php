@@ -1,15 +1,25 @@
 <?php
 include 'includes/auth_check.php';
 include 'config/database.php';
+include 'includes/csrf.php';
 
-$user_id = $_SESSION['user_id'];
+$user_id = (int) $_SESSION['user_id'];
 
-$accounts = mysqli_query($conn, "
-    SELECT account_id, account_name, account_type
+$stmtAccounts = mysqli_prepare($conn, "
+    SELECT account_id, account_name, account_type, balance
     FROM accounts
-    WHERE user_id = $user_id
+    WHERE user_id = ?
     ORDER BY account_name ASC
 ");
+mysqli_stmt_bind_param($stmtAccounts, "i", $user_id);
+mysqli_stmt_execute($stmtAccounts);
+$accounts = mysqli_stmt_get_result($stmtAccounts);
+
+$accountTypeLabels = [
+    'bank' => 'Bank',
+    'ewallet' => 'E-Wallet',
+    'cash' => 'Cash',
+];
 
 $pageTitle = 'Add Transaction | CashTrack';
 $activePage = 'transaction';
@@ -56,6 +66,7 @@ unset($_SESSION['form_error']);
                             </div>
                         <?php endif; ?>
                         <form action="process/transaction_store.php" method="POST" class="space-y-8">
+                            <?php echo csrfField(); ?>
 
                             <!-- Transaction Type & Amount Grid -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -123,9 +134,10 @@ unset($_SESSION['form_error']);
                                             <?php while ($account = mysqli_fetch_assoc($accounts)): ?>
                                                 <option value="<?php echo $account['account_id']; ?>">
                                                     <?php echo htmlspecialchars($account['account_name']); ?>
-                                                    <?php if (!empty($account['account_type'])): ?>
-                                                        - <?php echo htmlspecialchars(ucfirst($account['account_type'])); ?>
-                                                    <?php endif; ?>
+                                                    -
+                                                    <?php echo htmlspecialchars($accountTypeLabels[$account['account_type']] ?? ucfirst($account['account_type'])); ?>
+                                                    -
+                                                    Rp <?php echo number_format((float) $account['balance'], 0, ',', '.'); ?>
                                                 </option>
                                             <?php endwhile; ?>
                                         </select>

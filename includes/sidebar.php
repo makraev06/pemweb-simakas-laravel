@@ -42,9 +42,13 @@ function navClass($key, $activePage)
     </nav>
 
     <div class="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800">
-        <div class="flex items-center gap-3 px-2">
+        <?php
+        $defaultSidebarPhoto = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCfYtprLb6iuOCIeRlfYs1UCStaw5irQW5oDr6hg3NjHy9jqtiC0HyYP9IR-FTpBRX7JjYeXGy6446aDn0wLX9TaS0POtkwExKv6q4kT55HvqLQfwdVNyBFsWBpnyBzP0dGnKjTqF_EXw1GS9WugDKf-mx-c5AJ3P2CADaN-AnlkkX5xRMBsjyIb79ZSYkxQR29FvGW258dVRtRshU-kah0HCP7faNJT5weUE8Iwnf8cK3tkU_dETlOO2tqkrHntXfo7f70Ye2FWhE2';
+        $sidebarPhoto = $_SESSION['profile_photo'] ?? $defaultSidebarPhoto;
+        ?>
+        <a href="profile.php" class="flex items-center gap-3 px-2 rounded-lg transition hover:bg-slate-200/50 py-2">
             <img alt="User Profile" class="w-10 h-10 rounded-full object-cover grayscale"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfYtprLb6iuOCIeRlfYs1UCStaw5irQW5oDr6hg3NjHy9jqtiC0HyYP9IR-FTpBRX7JjYeXGy6446aDn0wLX9TaS0POtkwExKv6q4kT55HvqLQfwdVNyBFsWBpnyBzP0dGnKjTqF_EXw1GS9WugDKf-mx-c5AJ3P2CADaN-AnlkkX5xRMBsjyIb79ZSYkxQR29FvGW258dVRtRshU-kah0HCP7faNJT5weUE8Iwnf8cK3tkU_dETlOO2tqkrHntXfo7f70Ye2FWhE2" />
+                src="<?= htmlspecialchars($sidebarPhoto); ?>" />
             <div class="overflow-hidden">
                 <p class="text-sm font-semibold truncate text-on-surface">
                     <?= htmlspecialchars($_SESSION['name'] ?? 'User'); ?>
@@ -53,6 +57,6 @@ function navClass($key, $activePage)
                     <?= htmlspecialchars($_SESSION['user_role'] ?? 'Admin'); ?>
                 </p>
             </div>
-        </div>
+        </a>
     </div>
 </aside>

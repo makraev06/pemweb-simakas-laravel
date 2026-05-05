@@ -1,4 +1,6 @@
 <?php
+include 'includes/auth_check.php';
+
 $notifications = [
     [
         "title" => "Data baru masuk",

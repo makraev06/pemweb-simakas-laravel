@@ -1,6 +1,7 @@
 <?php
 include 'includes/auth_check.php';
 include 'config/database.php';
+include 'includes/csrf.php';
 
 $user_id = (int) $_SESSION['user_id'];
 
@@ -39,24 +40,24 @@ if ($page < 1) {
 
 $offset = ($page - 1) * $limit;
 
-$conditions = ["user_id = ?"];
+$conditions = ["transactions.user_id = ?"];
 $types = "i";
 $params = [$user_id];
 
 if (!empty($filter_jenis)) {
-    $conditions[] = "jenis = ?";
+    $conditions[] = "transactions.jenis = ?";
     $types .= "s";
     $params[] = $filter_jenis;
 }
 
 if (!empty($filter_start)) {
-    $conditions[] = "tanggal >= ?";
+    $conditions[] = "transactions.tanggal >= ?";
     $types .= "s";
     $params[] = $filter_start;
 }
 
 if (!empty($filter_end)) {
-    $conditions[] = "tanggal <= ?";
+    $conditions[] = "transactions.tanggal <= ?";
     $types .= "s";
     $params[] = $filter_end;
 }
@@ -137,7 +138,17 @@ $start_data = ($offset + 1);
 $show_end = min($offset + $limit, $total_data);
 
 /* QUERY DATA */
-$sql = "SELECT * FROM transactions WHERE $where_sql ORDER BY tanggal DESC, id DESC LIMIT ? OFFSET ?";
+$sql = "
+    SELECT
+        transactions.*,
+        accounts.account_name,
+        accounts.account_type
+    FROM transactions
+    LEFT JOIN accounts ON transactions.account_id = accounts.account_id
+    WHERE $where_sql
+    ORDER BY transactions.tanggal DESC, transactions.id DESC
+    LIMIT ? OFFSET ?
+";
 $data_types = $types . "ii";
 $data_params = array_merge($params, [$limit, $offset]);
 $stmt = mysqli_prepare($conn, $sql);
@@ -148,6 +159,8 @@ $query = mysqli_stmt_get_result($stmt);
 $activePage = 'transaction';
 $searchPlaceholder = 'Cari transaksi...';
 $hideSearch = true;
+$formError = $_SESSION['form_error'] ?? '';
+unset($_SESSION['form_error']);
 ?>
 
 <!DOCTYPE html>
@@ -178,6 +191,11 @@ $hideSearch = true;
                 </button>
             </div>
         </div>
+        <?php if (!empty($formError)): ?>
+            <div class="mb-8 rounded-lg bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container">
+                <?php echo htmlspecialchars($formError); ?>
+            </div>
+        <?php endif; ?>
         <!-- Filter & Metrics Section -->
         <div class="grid grid-cols-12 gap-6 mb-8">
             <div
@@ -408,7 +426,7 @@ $hideSearch = true;
                             <?php while ($row = mysqli_fetch_assoc($query)): ?>
 
                                 <tr class="group hover:bg-surface-container-highest transition-colors cursor-pointer relative transaksi-item"
-                                    data-search="<?= strtolower(($row['keterangan'] ?? '') . ' ' . ($row['jenis'] ?? '') . ' ' . ($row['category'] ?? '')) ?>">
+                                    data-search="<?= strtolower(($row['keterangan'] ?? '') . ' ' . ($row['jenis'] ?? '') . ' ' . ($row['category'] ?? '') . ' ' . ($row['account_name'] ?? '') . ' ' . ($row['account_type'] ?? '')) ?>">
                                     <!-- DATE -->
                                     <td class="px-6 py-4">
                                         <div class="flex flex-col">
@@ -450,11 +468,22 @@ $hideSearch = true;
                                         </p>
                                     </td>
 
-                                    <!-- ACCOUNT (sementara dummy dulu) -->
+                                    <!-- ACCOUNT -->
                                     <td class="px-6 py-4 text-right">
-                                        <span class="text-xs font-semibold text-secondary uppercase">
-                                            -
-                                        </span>
+                                        <?php if (!empty($row['account_name'])): ?>
+                                            <div class="flex flex-col items-end">
+                                                <span class="text-xs font-semibold text-secondary">
+                                                    <?php echo htmlspecialchars($row['account_name']); ?>
+                                                </span>
+                                                <span class="text-[10px] font-bold uppercase text-slate-400">
+                                                    <?php echo htmlspecialchars($row['account_type'] === 'ewallet' ? 'E-Wallet' : ucfirst($row['account_type'])); ?>
+                                                </span>
+                                            </div>
+                                        <?php else: ?>
+                                            <span class="text-xs font-semibold text-slate-400 uppercase">
+                                                -
+                                            </span>
+                                        <?php endif; ?>
                                     </td>
 
                                     <!-- AMOUNT -->
@@ -472,9 +501,14 @@ $hideSearch = true;
 
                                     <!-- ACTION -->
                                     <td class="px-6 py-4 text-right">
-                                        <button class="text-outline hover:text-primary">
-                                            <span class="material-symbols-outlined text-xl">more_vert</span>
-                                        </button>
+                                        <form action="process/transaction_del.php" method="POST"
+                                            onsubmit="return confirm('Hapus transaksi ini? Saldo akun akan disesuaikan kembali.');">
+                                            <?php echo csrfField(); ?>
+                                            <input type="hidden" name="id" value="<?php echo (int) $row['id']; ?>">
+                                            <button type="submit" class="text-outline hover:text-red-600">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </form>
                                     </td>
 
                                 </tr>
