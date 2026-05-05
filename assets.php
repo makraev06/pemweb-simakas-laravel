@@ -165,68 +165,6 @@ $topbarTitle = 'Assets';
                 </div>
             <?php endif; ?>
         </section>
-
-        <section class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <div class="rounded-xl bg-surface-container-lowest p-6 shadow-sm">
-                <h3 class="mb-6 font-['Manrope'] text-lg font-bold">Alokasi Aset</h3>
-
-                <div class="flex items-center gap-8">
-                    <div
-                        class="relative flex h-32 w-32 items-center justify-center rounded-full border-[12px] border-primary-container">
-                        <div
-                            class="absolute inset-0 -rotate-45 rounded-full border-[12px] border-emerald-100 border-r-transparent border-t-transparent">
-                        </div>
-                        <span class="text-xs font-bold text-primary">Seimbang</span>
-                    </div>
-
-                    <div class="flex-1 space-y-3">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <div class="h-2 w-2 rounded-full bg-primary"></div>
-                                <span class="text-xs text-slate-500">Properti</span>
-                            </div>
-                            <span class="text-xs font-bold">45%</span>
-                        </div>
-
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <div class="h-2 w-2 rounded-full bg-secondary"></div>
-                                <span class="text-xs text-slate-500">Saham</span>
-                            </div>
-                            <span class="text-xs font-bold">30%</span>
-                        </div>
-
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <div class="h-2 w-2 rounded-full bg-emerald-200"></div>
-                                <span class="text-xs text-slate-500">Lainnya</span>
-                            </div>
-                            <span class="text-xs font-bold">25%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-6 shadow-sm">
-                <div class="relative z-10">
-                    <h3 class="mb-2 font-['Manrope'] text-lg font-bold">Portfolio Insights</h3>
-                    <p class="mb-6 text-sm leading-relaxed text-slate-500">
-                        Aset properti anda berkinerja 12% di atas tolak ukur pada kuartal ini. Pertimbangkan untuk
-                        menyeimbangkan kembali alokasi saham.
-                    </p>
-
-                    <button type="button"
-                        class="flex items-center gap-2 rounded-md bg-primary px-5 py-2 text-xs font-bold text-white transition-opacity hover:opacity-90">
-                        Lihat Laporan Lengkap
-                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                    </button>
-                </div>
-
-                <div class="absolute bottom-0 right-0 translate-x-4 translate-y-4 opacity-5">
-                    <span class="material-symbols-outlined text-[160px]">insights</span>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="ml-64 border-t border-slate-100 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900">
