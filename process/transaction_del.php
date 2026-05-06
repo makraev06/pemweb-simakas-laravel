@@ -71,6 +71,24 @@ try {
         mysqli_stmt_execute($stmtAccount);
     }
 
+    $stmtAsset = mysqli_prepare(
+        $conn,
+        "SELECT id FROM assets WHERE transaction_id = ? AND user_id = ? FOR UPDATE"
+    );
+    mysqli_stmt_bind_param($stmtAsset, "ii", $transactionId, $user_id);
+    mysqli_stmt_execute($stmtAsset);
+    $assetResult = mysqli_stmt_get_result($stmtAsset);
+    $asset = mysqli_fetch_assoc($assetResult);
+
+    if ($asset) {
+        $stmtDeleteAsset = mysqli_prepare(
+            $conn,
+            "DELETE FROM assets WHERE id = ? AND user_id = ?"
+        );
+        mysqli_stmt_bind_param($stmtDeleteAsset, "ii", $asset['id'], $user_id);
+        mysqli_stmt_execute($stmtDeleteAsset);
+    }
+
     $stmtDelete = mysqli_prepare($conn, "DELETE FROM transactions WHERE id = ? AND user_id = ?");
     mysqli_stmt_bind_param($stmtDelete, "ii", $transactionId, $user_id);
     mysqli_stmt_execute($stmtDelete);

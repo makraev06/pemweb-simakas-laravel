@@ -162,6 +162,20 @@ $hideSearch = true;
                             <p class="mt-1 text-xs text-slate-400">
                                 <?php echo htmlspecialchars($row['tanggal_perolehan']); ?>
                             </p>
+
+                            <div class="mt-6 flex flex-wrap gap-3">
+                                <a href="edit_asset.php?id=<?php echo (int) $row['id']; ?>"
+                                    class="inline-flex items-center justify-center rounded-full border border-outline-variant/30 bg-white px-4 py-2 text-xs font-semibold text-primary hover:bg-slate-50 transition-all">
+                                    Edit
+                                </a>
+                                <form action="process/asset_delete.php" method="POST" onsubmit="return confirm('Hapus aset ini?');">
+                                    <input type="hidden" name="id" value="<?php echo (int) $row['id']; ?>" />
+                                    <button type="submit"
+                                        class="inline-flex items-center justify-center rounded-full bg-red-50 px-4 py-2 text-xs font-semibold text-red-600 hover:bg-red-100 transition-all">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     <?php endwhile; ?>
                 </div>
