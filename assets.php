@@ -57,16 +57,6 @@ $hideSearch = true;
 
                     <div class="mt-8 flex items-center gap-6">
                         <div class="flex flex-col">
-                            <span class="text-xs opacity-70">Perubahan 24j</span>
-                            <span class="flex items-center gap-1 text-lg font-bold">
-                                <span class="material-symbols-outlined text-sm">trending_up</span>
-                                +2.45%
-                            </span>
-                        </div>
-
-                        <div class="h-8 w-px bg-white/20"></div>
-
-                        <div class="flex flex-col">
                             <span class="text-xs opacity-70">Aset Aktif</span>
                             <span class="text-lg font-bold">
                                 <?php echo $total_item; ?> Aset
